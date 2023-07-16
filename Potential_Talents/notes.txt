@@ -1,0 +1,16 @@
+Provided that the current directory is set at the location of the folder
+containing the files, just running 'execute_ranking.py' will be enough
+as this file will call the other files.
+
+A ranking of possible candidates is made based on provided keyword.
+Candidates can be starred and then re-ranked. 
+Previously starred candidates will be saved until reset command applied
+
+The relative weight of starred candidate, previously starred candidates, and keyword
+can be customized.
+
+Preferred location can be provided during ranking, or not.
+If not provided, location of starred candidate will be used by default.
+The preferred number of connections is also set to that of starred candidate 
+by default.
+
