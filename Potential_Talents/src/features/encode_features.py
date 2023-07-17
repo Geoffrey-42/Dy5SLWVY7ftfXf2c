@@ -62,6 +62,7 @@ processed_data = pd.DataFrame.from_dict(processed, orient = 'index', columns = [
 
 ## Defining the embedding model
 model_name = 'sentence-transformers/all-mpnet-base-v2'
+model_name = 'all-MiniLM-L6-v2' # smaller model
 model = SentenceTransformer(model_name)
 
 def job_embedding(job):
