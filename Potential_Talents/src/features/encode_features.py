@@ -19,11 +19,8 @@ def process_string(txt):
     stopwords_english = stopwords.words('english')
     
     # Next, separate the words
-    seps = [' '] + list(string.punctuation)
-    default_sep = seps[0]
-    for sep in seps[1:]:
-        txt = txt.replace(sep, default_sep)
-    word_list = [i.strip().lower() for i in txt.split(default_sep)]
+    tokens = word_tokenize(txt)
+    tokens = [i.strip().lower() for i in tokens]
     #
     
     def not_a_number(word):
@@ -34,7 +31,7 @@ def process_string(txt):
         return True
 
     # Remove stop words from the list and stems
-    for word in word_list:
+    for word in tokens:
         if word == 'hr':
             words.append('human'); words.append('resourc')
         elif (word not in stopwords_english and  # remove stopwords
