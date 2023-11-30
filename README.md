@@ -27,7 +27,7 @@ This feedback loop ensures ongoing improvement and consistent delivery of better
 ## Usage
 To utilize this Hiring Pipeline, follow these steps:
 
-1. Define role-specific keywords based on the requirements of the position and .
+1. Define role-specific keywords based on the requirements of the position.
 2. Acquire candidate descriptions from LinkedIn or other relevant sources.
 3. Run the algorithm to extract semantic embeddings from candidate descriptions.
 4. Use the pipeline to screen and rank the candidates based on the extracted embeddings and specific recruiter needs.
