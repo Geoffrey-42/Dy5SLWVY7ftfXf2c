@@ -3,7 +3,7 @@ The goal of this project is to streamline the hiring process for technology comp
 This facilitates the matching process with the specific needs of recruiters.
 
 ## Objective
-The primary objective of this project is to automatically find the best matching candidates based on how fit these candidates are for a given role. 
+The primary objective of this project is to automatically highlight the best matching candidates based on how fit these candidates are for a given role. 
 Through Natural Language Processing (NLP) and Machine Learning, the pipeline aims to match the most suitable candidates to specific roles based on their LinkedIn information.
 
 ## Dataset
