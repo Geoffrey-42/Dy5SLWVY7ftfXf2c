@@ -13,34 +13,41 @@ processed_locations = []
 processed_connections = np.zeros(len(connections))
 
 def process_string(txt):
-    # Returns a list of processed words extracted from txt string
+    '''
+    Process the words in an input string:
+        - Tokenizes the words in the string
+        - Removes stopwords, numbers and punctuation
+        - Performs stemming
+    
+    Arguments:
+        txt: String, for example "human resources"
+    
+    Returns:
+        processed: String, for example "human resourc"
+    '''
     words = [] # Will contain the words in the txt string
     stemmer = PorterStemmer()
     stopwords_english = stopwords.words('english')
     
-    # Next, separate the words
+    # Next, tokenize the words
     tokens = word_tokenize(txt)
     tokens = [i.strip().lower() for i in tokens]
     #
-    
-    def not_a_number(word):
-        # Returns if the word is or contains a number
-        for i in word:
-            if i in string.digits:
-                return False
-        return True
 
-    # Remove stop words from the list and stems
+    # Remove stop words & punctuations from the list and stems
     for word in tokens:
         if word == 'hr':
             words.append('human'); words.append('resourc')
         elif (word not in stopwords_english and  # remove stopwords
                 word not in string.punctuation and
-                    len(word) > 1 and not_a_number(word)):  # remove punctuation
+                    len(word) > 1 and word.isalpha()):  # remove punctuation
                 stem_word = stemmer.stem(word)  # stemming word
                 words.append(stem_word)
-    return ' '.join(words)
+    
+    processed = ' '.join(words)
+    return processed
 
+## Generate the processed inputs
 for job in jobs:
     processed_jobs.append(process_string(job))
 for loc in locations:
@@ -63,7 +70,15 @@ model_name = 'all-MiniLM-L6-v2' # smaller model
 model = SentenceTransformer(model_name)
 
 def job_embedding(job):
-    # Returns a saved value of the job embedding, or encodes it
+    '''
+    Returns a previously saved value of the job embedding, or encodes it
+    
+    Arguments:
+        job: String, processed job information
+    
+    Returns:
+        encoding: Array, the encoding of the job
+    '''
     ind = dict(enumerate(np.where(processed_data['job_title'] == job)[0])).get(0)
     if encoded and ind != None:
         return encoded_data['job_title'].loc[ind]
@@ -74,7 +89,12 @@ def job_embedding(job):
     return encoding
 
 def encode_jobs():
-    # Encodes the preprocessed jobs and locations
+    '''
+    Encodes all preprocessed jobs and locations.
+    
+    Returns:
+        encoded_data: Pandas dataframe, candidates encoded data
+    '''
     encoded_jobs = np.array([job_embedding(job) for job in processed_jobs])
     encoded_locations = np.array([job_embedding(loc) for loc in processed_locations])
     data = np.concatenate((encoded_jobs, encoded_locations))
@@ -82,6 +102,7 @@ def encode_jobs():
     encoded_data = pd.DataFrame.from_dict(enc_samples, orient = 'index', columns = ['job_title', 'location', 'log_connections', 'fit'])
     return encoded_data
 
+## Performs all the encoding
 encoded = False
 encoded_data = encode_jobs()
 encoded = True # Now all the data has been encoded
