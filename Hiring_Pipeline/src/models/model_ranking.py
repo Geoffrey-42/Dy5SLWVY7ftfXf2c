@@ -4,16 +4,37 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 runfile('src/features/encode_features.py')
 
 def cosine_similarity(vec1, vec2):
-    # Returns the cosine similarity between vectors with norm == 1
+    '''
+    Returns the cosine similarity between unit vectors
+    
+    Arguments:
+        vec1: Unit array
+        vec2: Unit array
+    
+    Returns:
+        The numpy dot product
+    '''
     norm1 = np.linalg.norm(vec1); norm2 = np.linalg.norm(vec2)
     assert np.isclose(norm1,1); assert np.isclose(norm2,1)
     return np.dot(vec1, vec2)
 
 def similar_jobs(job, location = None, connec = None, update = False):
-    # Returns a list of jobs most similar to 'job' based on their ranking
-    # If location is provided, it will be accounted for
-    # If connec is provided, it will be accounted for
-    # If update is set to True, dataframes will be sorted according to fitness
+    '''
+    Returns a ranking of the candidates best matching a specific job
+    
+    Arguments: 
+        job: String or embedding representing the job to match candidates to.
+             If a string is provided, it will be encoded.
+             
+        location: String, a specified city or country
+        
+        connec: Integer, number of connections on Linkedin (Max 500)
+        
+        update: Boolean, if True dataframes will be sorted according to ranking
+    
+    Returns:
+        ranking: List, a ranking of the 10 best matching candidates
+    '''
     cosine_list = [] # Similarity ranking
     if type(job) == str:
         emb = job_embedding(job)
@@ -39,6 +60,15 @@ def similar_jobs(job, location = None, connec = None, update = False):
     return ranking
 
 def update_dataframe(cosine_list):
+    '''
+    Updates candidates dataframe based on provided ranking information.
+    
+    Arguments:
+        cosine_list: List, contains the job cosine similarity of each candidate
+    
+    Updates:
+        The dataframes fit values are updated and sorted in descending order.
+    '''
     for i, cos in enumerate(cosine_list):
         dataframe.loc[i, ['fit']] = cos
         processed_data.loc[i, ['fit']] = cos
@@ -49,8 +79,24 @@ def update_dataframe(cosine_list):
     return None
 
 def star_rank(keyword, star = [], location = None, connec = None, weights = [0.4, 0.5, 0.1]):
-    # Returns a ranking based on keyword provided and starred candidates
-    # star is the list of job_title starred (string, exact match) (in chronological order)
+    '''
+    Provides a candidate ranking based on job characteristics and manual 
+    supervisory signal (history of starred candidates).
+    
+    Arguments:
+        keyword: String, describes the job to match candidates to.
+        star: List, indices of candidates starred in chronological order
+        location: String, preferred location
+        connec: Integer, number of Linkedin connections (Max 500)
+        weights: List [a, b, c], importance accorded to (a+b+c=1): 
+                    a: keyword provided
+                        and manual supervisory signals:
+                    b: last starred candidate
+                    c: previously starred candidates
+    
+    Returns:
+        ranking: List, ranking of candidates
+    '''
     key_emb = job_embedding(process_string(keyword))
     key_w, star_w, prestar_w = weights # Importance accredited to keyword vs starred vs previously starred
     if len(star) > 0:

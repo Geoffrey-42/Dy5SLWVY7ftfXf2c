@@ -6,18 +6,38 @@ runfile('src/models/model_ranking.py')
 star_ind = [] # List of indices of starred candidates
 
 def reset_starring():
-    # Removes all of the stars
+    'Resets / Erases all manual supervisory signals previously provided.'
     star_ind = []
     return None
 
 def star(ind):
-    # Stars the candidate by providing its index ind in the dataframe
+    '''
+    Stars a candidate
+    
+    Arguments:
+        ind: Integer, candidate index in the dataframe
+    
+    Performs:
+        Candidate starring.
+    '''
     star_ind.append(ind)
     job, loc = dataframe['job_title'][ind], dataframe['location'][ind]
     print('The candidate %s was starred with index %s'%((job, loc), ind))
     return None
 
 def rank(keyword, location = None):
+    '''
+    Simplified use of candidate ranking operation.
+    
+    Arguments:
+        keyword: String, describes the job to match candidates to.
+        location: String, preferred location
+                  If not provided, the location of the last candidate 
+                  to be starred will be used.
+    
+    Returns:
+        ranking: List, ranking of candidates
+    '''
     print('\nThe keyword provided is: '+keyword)
     processed_starred = [processed_jobs[ind] for ind in star_ind]
     location, connec = None, None
