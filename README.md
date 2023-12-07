@@ -1,4 +1,4 @@
-# Hiring Pipeline
+# NLP Pipeline
 The goal of this project is to streamline the hiring process for technology companies by leveraging a Machine Learning (ML) Natural Language Processing (NLP) pipeline. 
 This facilitates the matching process with the specific needs of recruiters.
 
