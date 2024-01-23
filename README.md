@@ -37,5 +37,5 @@ To utilize this Hiring Pipeline, follow these steps:
 This ML pipeline optimizes the talent acquisition process for technology companies by automating candidate screening and ranking. 
 By leveraging NLP capabilities and continuous learning mechanisms, the pipeline significantly reduces costs and streamlines the hiring process. 
 The automated screening and ranking of candidates based on their LinkedIn information ensures that the most suitable candidates are identified for specific roles. 
-With ongoing improvements and feedback from recruiters, the pipeline consistently delivers better results and enhances the overall efficiency of the talent acquisition process.
+With ongoing improvements and feedback from recruiters, the pipeline consistently delivers better results and enhances the overall efficiency of the talent acquisition process,
 resulting in reduced costs and improved efficiency. 
